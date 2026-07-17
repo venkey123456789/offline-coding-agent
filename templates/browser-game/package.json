@@ -1,0 +1,10 @@
+{
+  "name": "browser-game-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --offline vite --host 127.0.0.1",
+    "test": "node --check src/game.js"
+  }
+}

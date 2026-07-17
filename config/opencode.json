@@ -1,0 +1,116 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/qwen3:14b",
+  "autoupdate": false,
+  "plugin": [
+    "{env:AGENT_PLUGIN_URL}"
+  ],
+  "compaction": {
+    "auto": true,
+    "prune": false,
+    "tail_turns": 10,
+    "preserve_recent_tokens": 12000,
+    "reserved": 4000
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:11435/v1"
+      },
+      "models": {
+        "qwen3:14b": {
+          "name": "Qwen3 14B local balanced"
+        },
+        "qwen2.5-coder:1.5b": {
+          "name": "Qwen2.5 Coder 1.5B local fast"
+        },
+        "qwen3-coder:latest": {
+          "name": "Qwen3 Coder local large optional"
+        },
+        "gpt-oss:20b": {
+          "name": "gpt-oss 20B local optional"
+        }
+      }
+    }
+  },
+  "mcp": {
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-filesystem\\dist\\index.js",
+        "{env:AGENT_HOME}"
+      ],
+      "enabled": true,
+      "timeout": 10000
+    },
+    "git": {
+      "type": "local",
+      "command": [
+        "{env:AGENT_HOME}\\tools\\python\\aider-venv\\Scripts\\mcp-server-git.exe"
+      ],
+      "enabled": true,
+      "timeout": 10000
+    },
+    "memory": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-memory\\dist\\index.js"
+      ],
+      "environment": {
+        "MEMORY_FILE_PATH": "{env:AGENT_HOME}\\state\\memory\\memory.jsonl"
+      },
+      "enabled": true,
+      "timeout": 10000
+    },
+    "chat-memory": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:AGENT_HOME}\\scripts\\conversation-memory-mcp.mjs"
+      ],
+      "environment": {
+        "AGENT_HOME": "{env:AGENT_HOME}"
+      },
+      "enabled": true,
+      "timeout": 10000
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-sequential-thinking\\dist\\index.js"
+      ],
+      "enabled": true,
+      "timeout": 10000
+    },
+    "project-tools": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:AGENT_HOME}\\scripts\\project-tools-mcp.mjs"
+      ],
+      "environment": {
+        "AGENT_HOME": "{env:AGENT_HOME}"
+      },
+      "enabled": true,
+      "timeout": 10000
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "webfetch": "allow"
+  },
+  "tools": {
+    "mcp_everything_demo*": false
+  },
+  "instructions": [
+    "{env:AGENT_HOME}\\config\\agent-instructions.md",
+    "{env:AGENT_MEMORY_CONTEXT}",
+    "AGENTS.md"
+  ]
+}

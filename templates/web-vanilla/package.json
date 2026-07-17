@@ -1,0 +1,11 @@
+{
+  "name": "web-vanilla-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --offline vite --host 127.0.0.1",
+    "build": "echo Static app: no build step required",
+    "test": "node --check src/main.js"
+  }
+}

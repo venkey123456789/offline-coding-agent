@@ -1,0 +1,45 @@
+# Downloaded models and caches
+models/
+cache/
+
+# Installed runtimes and editor extensions
+tools/
+config/node_modules/
+
+# Private local data
+state/
+logs/
+projects/
+chat histories/
+.agents/
+.codex/
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+auth.json
+
+# Generated and temporary files
+*.log
+*.tmp
+*.zip
+node_modules/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+dist/
+build/
+
+# Windows and editor metadata
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/
+
+# Accidental incomplete Git metadata from local installations
+.git/

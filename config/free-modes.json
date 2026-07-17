@@ -1,0 +1,21 @@
+{
+  "policy": "free-local-first",
+  "allowed": [
+    "local Ollama models",
+    "local filesystem and git MCP",
+    "local tests, lint, snapshots, templates, and browser automation",
+    "public web pages through a normal browser when internet is available"
+  ],
+  "blocked": [
+    "paid APIs",
+    "paid SaaS MCP adapters",
+    "hosted proprietary model billing",
+    "cloud GPU billing",
+    "subscription-only review/design/build services"
+  ],
+  "modes": {
+    "read_only": ["inspect", "search", "explain", "review"],
+    "safe_edit": ["snapshot", "edit", "test", "report"],
+    "full_local": ["edit", "run local commands", "create projects", "run local browser tests"]
+  }
+}

@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a focused offline or local-first improvement
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the user experience and any important technical constraints.
+    validations:
+      required: true
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Project principles
+      options:
+        - label: The proposal keeps the core usable without paid APIs.
+          required: true
+        - label: The proposal keeps private runtime data local.
+          required: true

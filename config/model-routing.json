@@ -1,0 +1,21 @@
+{
+  "defaultProfile": "balanced",
+  "profiles": {
+    "fast": {
+      "description": "Low-latency local coding, quick explanations, autocomplete-like tasks.",
+      "models": ["qwen2.5-coder:1.5b", "qwen3:14b"]
+    },
+    "balanced": {
+      "description": "Default local agent mode for edits, debugging, apps, games, and refactors.",
+      "models": ["qwen3:14b", "qwen2.5-coder:1.5b"]
+    },
+    "deep": {
+      "description": "Hard architecture, large refactors, security review, complex debugging.",
+      "models": ["qwen3-coder:latest", "gpt-oss:20b", "qwen3:14b"]
+    },
+    "review": {
+      "description": "Code review and regression-risk analysis.",
+      "models": ["qwen3-coder:latest", "qwen3:14b"]
+    }
+  }
+}

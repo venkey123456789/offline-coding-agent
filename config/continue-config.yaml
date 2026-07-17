@@ -1,0 +1,73 @@
+name: Offline First Agent
+version: 1.0.0
+schema: v1
+
+models:
+  - name: Qwen3 14B Local
+    provider: ollama
+    model: qwen3:14b
+    apiBase: http://127.0.0.1:11435
+    roles:
+      - chat
+      - edit
+      - apply
+    capabilities:
+      - tool_use
+  - name: Qwen2.5 Coder 1.5B Autocomplete
+    provider: ollama
+    model: qwen2.5-coder:1.5b
+    apiBase: http://127.0.0.1:11435
+    roles:
+      - autocomplete
+    autocompleteOptions:
+      debounceDelay: 350
+      maxPromptTokens: 1024
+      onlyMyCode: true
+  - name: Nomic Embed Local
+    provider: ollama
+    model: nomic-embed-text
+    apiBase: http://127.0.0.1:11435
+    roles:
+      - embed
+
+context:
+  - provider: file
+  - provider: code
+  - provider: diff
+  - provider: terminal
+
+mcpServers:
+  - name: filesystem
+    command: node
+    args:
+      - ${{ secrets.AGENT_HOME }}\tools\npm\node_modules\@modelcontextprotocol\server-filesystem\dist\index.js
+      - ${{ secrets.AGENT_HOME }}
+    connectionTimeout: 10000
+  - name: git
+    command: ${{ secrets.AGENT_HOME }}\tools\python\aider-venv\Scripts\mcp-server-git.exe
+    connectionTimeout: 10000
+  - name: memory
+    command: node
+    args:
+      - ${{ secrets.AGENT_HOME }}\tools\npm\node_modules\@modelcontextprotocol\server-memory\dist\index.js
+    env:
+      MEMORY_FILE_PATH: ${{ secrets.AGENT_HOME }}\state\memory\memory.jsonl
+    connectionTimeout: 10000
+  - name: sequential-thinking
+    command: node
+    args:
+      - ${{ secrets.AGENT_HOME }}\tools\npm\node_modules\@modelcontextprotocol\server-sequential-thinking\dist\index.js
+    connectionTimeout: 10000
+  - name: project-tools
+    command: node
+    args:
+      - ${{ secrets.AGENT_HOME }}\scripts\project-tools-mcp.mjs
+    env:
+      AGENT_HOME: ${{ secrets.AGENT_HOME }}
+    connectionTimeout: 10000
+
+rules:
+  - Use local Ollama models by default.
+  - Keep generated files, caches, logs, and model data under ${{ secrets.AGENT_HOME }} unless explicitly told otherwise.
+  - Do not use paid APIs, subscription-backed MCP adapters, or cloud GPU billing.
+  - Use public web browser automation only when internet access is explicitly useful.

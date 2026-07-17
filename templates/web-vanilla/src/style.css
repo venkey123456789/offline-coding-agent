@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101418;
+  color: #f4f7fb;
+}
+
+.shell {
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 24px;
+}
+
+button {
+  padding: 10px 14px;
+  border: 1px solid #8ab4f8;
+  background: #17202a;
+  color: #f4f7fb;
+}

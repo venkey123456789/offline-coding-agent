@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@playwright\\mcp\\cli.js",
+        "--browser=msedge",
+        "--user-data-dir={env:AGENT_HOME}\\state\\playwright"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "node-cli-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "local-tool": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test",
+    "lint": "npx --offline eslint src"
+  },
+  "devDependencies": {
+    "eslint": "*"
+  }
+}

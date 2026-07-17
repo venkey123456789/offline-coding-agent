@@ -1,0 +1,54 @@
+{
+  "servers": {
+    "filesystem": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-filesystem\\dist\\index.js",
+        "{env:AGENT_HOME}"
+      ]
+    },
+    "git": {
+      "type": "stdio",
+      "command": "{env:AGENT_HOME}\\tools\\python\\aider-venv\\Scripts\\mcp-server-git.exe",
+      "args": []
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-memory\\dist\\index.js"
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "{env:AGENT_HOME}\\state\\memory\\memory.jsonl"
+      }
+    },
+    "chat-memory": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\scripts\\conversation-memory-mcp.mjs"
+      ],
+      "env": {
+        "AGENT_HOME": "{env:AGENT_HOME}"
+      }
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\tools\\npm\\node_modules\\@modelcontextprotocol\\server-sequential-thinking\\dist\\index.js"
+      ]
+    },
+    "project-tools": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "{env:AGENT_HOME}\\scripts\\project-tools-mcp.mjs"
+      ],
+      "env": {
+        "AGENT_HOME": "{env:AGENT_HOME}"
+      }
+    }
+  }
+}
