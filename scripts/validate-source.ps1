@@ -27,7 +27,9 @@ foreach ($file in $nodeFiles) {
 
 $publicAreas = @('bin', 'config', 'docs', 'runtime', 'scripts', 'templates') | ForEach-Object { Join-Path $root $_ }
 $publicFiles = $publicAreas | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse }
-$hardcoded = $publicFiles | Select-String -Pattern '[A-Z]:\\coding offline ai agent|C:\\Users\\' -ErrorAction SilentlyContinue
+$drivePathPattern = '[A-Z]:' + '\\coding offline ai agent'
+$userPathPattern = 'C:' + '\\Users\\'
+$hardcoded = $publicFiles | Select-String -Pattern ($drivePathPattern + '|' + $userPathPattern) -ErrorAction SilentlyContinue
 if ($hardcoded) { throw 'Public source contains a hardcoded personal installation path.' }
 
 $forbiddenRoots = @('models/', 'cache/', 'state/', 'logs/', 'tools/', 'projects/', 'chat histories/')
