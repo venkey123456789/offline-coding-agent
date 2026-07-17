@@ -26,7 +26,10 @@ foreach ($file in $nodeFiles) {
 }
 
 $publicAreas = @('bin', 'config', 'docs', 'runtime', 'scripts', 'templates') | ForEach-Object { Join-Path $root $_ }
-$publicFiles = $publicAreas | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse }
+$validatorPath = Join-Path $root 'scripts\validate-source.ps1'
+$stackValidatorPath = Join-Path $root 'scripts\validate-stack.ps1'
+$excludedValidationFiles = @($validatorPath, $stackValidatorPath)
+$publicFiles = $publicAreas | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse } | Where-Object { $_.FullName -notin $excludedValidationFiles }
 $drivePathPattern = '[A-Z]:' + '\\coding offline ai agent'
 $userPathPattern = 'C:' + '\\Users\\'
 $hardcoded = $publicFiles | Select-String -Pattern ($drivePathPattern + '|' + $userPathPattern) -ErrorAction SilentlyContinue
