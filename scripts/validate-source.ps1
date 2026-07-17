@@ -34,7 +34,14 @@ $forbiddenPathLiterals = @(
   ('H:' + '\\coding offline ai agent'),
   ('C:' + '\\Users\\venka')
 )
-$hardcoded = $publicFiles | Select-String -SimpleMatch -Pattern $forbiddenPathLiterals -ErrorAction SilentlyContinue
+$hardcoded = foreach ($file in $publicFiles) {
+  $content = [System.IO.File]::ReadAllText($file.FullName)
+  foreach ($literal in $forbiddenPathLiterals) {
+    if ($content.Contains($literal)) {
+      [pscustomobject]@{ Path = $file.FullName; Literal = $literal }
+    }
+  }
+}
 if ($hardcoded) { throw 'Public source contains a hardcoded personal installation path.' }
 
 $forbiddenRoots = @('models/', 'cache/', 'state/', 'logs/', 'tools/', 'projects/', 'chat histories/')
