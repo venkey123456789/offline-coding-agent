@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@ai-sdk/openai-compatible": "^3.0.6",
+    "@ai-sdk/openai-compatible": "^3.0.12",
     "@continuedev/cli": "^1.5.47",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@modelcontextprotocol/server-everything": "^2026.7.4",
