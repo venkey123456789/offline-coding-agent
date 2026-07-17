@@ -7,6 +7,7 @@ $required = @(
   'config\opencode.json', 'config\opencode-online.json',
   'config\plugins\persistent-memory.js',
   'scripts\conversation-memory-mcp.mjs', 'scripts\sync-conversation-memory.mjs',
+  'scripts\render-opencode-config.ps1',
   'runtime\npm\package.json', 'runtime\npm\package-lock.json', 'runtime\requirements.txt'
 )
 foreach ($relative in $required) {

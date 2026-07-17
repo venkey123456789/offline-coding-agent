@@ -50,6 +50,7 @@ $required = @(
   'scripts\conversation-memory-mcp.mjs',
   'scripts\sync-conversation-memory.mjs',
   'scripts\render-continue-config.ps1',
+  'scripts\render-opencode-config.ps1',
   'config\plugins\persistent-memory.js',
   'config\automatic-context.md',
   'runtime\npm\package.json',
@@ -72,6 +73,14 @@ foreach ($relative in $required) {
 
 foreach ($jsonFile in @('opencode.json', 'opencode-online.json', 'mcp-local.json', 'mcp-online.json', 'model-routing.json', 'free-modes.json')) {
   Get-Content (Join-Path $root "config\$jsonFile") -Raw | ConvertFrom-Json | Out-Null
+}
+
+foreach ($jsonFile in @('opencode.json', 'opencode-online.json')) {
+  $runtimeConfig = Join-Path $root "state\opencode-config\$jsonFile"
+  Get-Content $runtimeConfig -Raw | ConvertFrom-Json | Out-Null
+  if ((Get-Content $runtimeConfig -Raw).Contains('{env:')) {
+    throw "Unresolved environment placeholder in $runtimeConfig"
+  }
 }
 
 $continueConfig = Join-Path $root 'config\continue-config.yaml'

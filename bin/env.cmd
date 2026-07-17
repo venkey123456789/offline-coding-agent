@@ -15,8 +15,8 @@ set "UV_CACHE_DIR=%AGENT_HOME%\cache\uv"
 set "PLAYWRIGHT_BROWSERS_PATH=%AGENT_HOME%\cache\ms-playwright"
 set "CONTINUE_GLOBAL_DIR=%AGENT_HOME%\state\continue"
 
-set "OPENCODE_CONFIG=%AGENT_HOME%\config\opencode.json"
-set "OPENCODE_CONFIG_DIR=%AGENT_HOME%\config"
+set "OPENCODE_CONFIG=%AGENT_HOME%\state\opencode-config\opencode.json"
+set "OPENCODE_CONFIG_DIR=%AGENT_HOME%\state\opencode-config"
 set "OPENCODE_DISABLE_AUTOUPDATE=true"
 set "OPENCODE_DISABLE_PRUNE=true"
 
@@ -32,3 +32,10 @@ if not exist "%OLLAMA_MODELS%" mkdir "%OLLAMA_MODELS%" >nul 2>nul
 if not exist "%HF_HOME%" mkdir "%HF_HOME%" >nul 2>nul
 if not exist "%CONTINUE_GLOBAL_DIR%" mkdir "%CONTINUE_GLOBAL_DIR%" >nul 2>nul
 if not exist "%XDG_DATA_HOME%" mkdir "%XDG_DATA_HOME%" >nul 2>nul
+if not exist "%OPENCODE_CONFIG_DIR%" mkdir "%OPENCODE_CONFIG_DIR%" >nul 2>nul
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "%AGENT_HOME%\scripts\render-opencode-config.ps1" >nul
+if errorlevel 1 (
+  echo Failed to prepare the OpenCode configuration.
+  exit /b 1
+)

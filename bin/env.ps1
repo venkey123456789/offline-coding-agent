@@ -13,8 +13,8 @@ $env:NPM_CONFIG_CACHE = Join-Path $script:AgentHome 'cache\npm'
 $env:UV_CACHE_DIR = Join-Path $script:AgentHome 'cache\uv'
 $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path $script:AgentHome 'cache\ms-playwright'
 $env:CONTINUE_GLOBAL_DIR = Join-Path $script:AgentHome 'state\continue'
-$env:OPENCODE_CONFIG = Join-Path $script:AgentHome 'config\opencode.json'
-$env:OPENCODE_CONFIG_DIR = Join-Path $script:AgentHome 'config'
+$env:OPENCODE_CONFIG = Join-Path $script:AgentHome 'state\opencode-config\opencode.json'
+$env:OPENCODE_CONFIG_DIR = Join-Path $script:AgentHome 'state\opencode-config'
 $env:OPENCODE_DISABLE_AUTOUPDATE = 'true'
 $env:OPENCODE_DISABLE_PRUNE = 'true'
 $env:AGENT_PLUGIN_URL = ([System.Uri](Join-Path $script:AgentHome 'config\plugins\persistent-memory.js')).AbsoluteUri
@@ -31,6 +31,8 @@ $binPaths = @(
 )
 $env:PATH = ($binPaths + $env:PATH.Split(';') | Where-Object { $_ } | Select-Object -Unique) -join ';'
 
-foreach ($path in @($env:OLLAMA_MODELS, $env:HF_HOME, $env:CONTINUE_GLOBAL_DIR, $env:XDG_DATA_HOME, $env:NPM_CONFIG_CACHE, $env:PIP_CACHE_DIR, $env:UV_CACHE_DIR)) {
+foreach ($path in @($env:OLLAMA_MODELS, $env:HF_HOME, $env:CONTINUE_GLOBAL_DIR, $env:XDG_DATA_HOME, $env:OPENCODE_CONFIG_DIR, $env:NPM_CONFIG_CACHE, $env:PIP_CACHE_DIR, $env:UV_CACHE_DIR)) {
   New-Item -ItemType Directory -Force -Path $path | Out-Null
 }
+
+& (Join-Path $script:AgentHome 'scripts\render-opencode-config.ps1') | Out-Null
