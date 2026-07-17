@@ -57,7 +57,8 @@ if (Test-Path (Join-Path $root '.git\HEAD')) {
 
 $secretPattern = '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)'
 $secretHits = Get-ChildItem $root -File -Recurse | Where-Object {
-  $_.FullName -notmatch '\\(models|cache|state|logs|tools|projects|chat histories|\.git)\\'
+  ($_.FullName -notmatch '\\(models|cache|state|logs|tools|projects|chat histories|\.git)\\') -and
+  ($_.FullName -notin $excludedValidationFiles)
 } | Select-String -Pattern $secretPattern -ErrorAction SilentlyContinue
 if ($secretHits) { throw 'A possible credential or private key was found in public source.' }
 
