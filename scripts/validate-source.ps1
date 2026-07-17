@@ -55,11 +55,14 @@ if (Test-Path (Join-Path $root '.git\HEAD')) {
   }
 }
 
-$secretPattern = '(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----)'
+$secretPattern = ('gh' + '[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----')
 $secretHits = Get-ChildItem $root -File -Recurse | Where-Object {
   ($_.FullName -notmatch '\\(models|cache|state|logs|tools|projects|chat histories|\.git)\\') -and
-  ($_.FullName -notin $excludedValidationFiles)
+  ($_.Name -notin @('validate-source.ps1', 'validate-stack.ps1'))
 } | Select-String -Pattern $secretPattern -ErrorAction SilentlyContinue
-if ($secretHits) { throw 'A possible credential or private key was found in public source.' }
+if ($secretHits) {
+  $secretHits | ForEach-Object { Write-Error "Possible credential pattern in $($_.Path):$($_.LineNumber)" }
+  throw 'A possible credential or private key was found in public source.'
+}
 
 Write-Host 'SOURCE_VALIDATION_OK'
