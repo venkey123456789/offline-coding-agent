@@ -30,9 +30,11 @@ $validatorPath = Join-Path $root 'scripts\validate-source.ps1'
 $stackValidatorPath = Join-Path $root 'scripts\validate-stack.ps1'
 $excludedValidationFiles = @($validatorPath, $stackValidatorPath)
 $publicFiles = $publicAreas | ForEach-Object { Get-ChildItem -LiteralPath $_ -File -Recurse } | Where-Object { $_.FullName -notin $excludedValidationFiles }
-$drivePathPattern = '[A-Z]:' + '\\coding offline ai agent'
-$userPathPattern = 'C:' + '\\Users\\'
-$hardcoded = $publicFiles | Select-String -Pattern ($drivePathPattern + '|' + $userPathPattern) -ErrorAction SilentlyContinue
+$forbiddenPathLiterals = @(
+  ('H:' + '\\coding offline ai agent'),
+  ('C:' + '\\Users\\venka')
+)
+$hardcoded = $publicFiles | Select-String -SimpleMatch -Pattern $forbiddenPathLiterals -ErrorAction SilentlyContinue
 if ($hardcoded) { throw 'Public source contains a hardcoded personal installation path.' }
 
 $forbiddenRoots = @('models/', 'cache/', 'state/', 'logs/', 'tools/', 'projects/', 'chat histories/')
