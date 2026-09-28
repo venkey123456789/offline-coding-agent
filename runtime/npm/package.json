@@ -10,7 +10,7 @@
     "@playwright/mcp": "^0.0.77",
     "eslint": "^10.6.0",
     "mcp-remote": "^0.1.38",
-    "opencode-ai": "^1.17.16",
+    "opencode-ai": "^1.18.3",
     "prettier": "^3.9.5",
     "typescript": "^7.0.2",
     "yaml": "^2.9.0"
